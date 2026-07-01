@@ -89,6 +89,7 @@ app.post("/register", async (req, res) => {
   };
 
   try {
+    console.log("1. Before Brevo");
     await client.transactionalEmails.sendTransacEmail({
     sender: {
         email: "aayush8106@gmail.com",
@@ -102,6 +103,10 @@ app.post("/register", async (req, res) => {
     subject: "OTP Verification",
     htmlContent: `<h2>Your OTP is <b>${otp}</b></h2>`
 });
+ 
+console.log("2. After Brevo");
+console.log(response);
+
     req.session.save((err) => {
       if (err) {
         return res.status(500).json({ message: "Session error" });
