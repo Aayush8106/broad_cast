@@ -11,7 +11,7 @@ dotenv.config();
 const app=express();
 app.set("trust proxy", 1);
 const PORT=process.env.PORT;
-const FRONTEND = path.resolve("../frontend");
+const FRONTEND = path.resolve("./frontend");
 
 app.use(express.static(path.resolve(FRONTEND)));
 app.use(express.urlencoded({extended:true}));
