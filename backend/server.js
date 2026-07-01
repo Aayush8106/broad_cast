@@ -14,6 +14,25 @@ console.log("SMTP_PORT:", process.env.SMTP_PORT);
 console.log("SMTP_USER:", process.env.SMTP_USER);
 console.log("SMTP_PASS:", process.env.SMTP_PASS ? "Loaded" : "Missing");
 
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
+    auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+    }
+});
+
+transporter.verify((err, success) => {
+    if (err) {
+        console.log("SMTP ERROR");
+        console.log(err);
+    } else {
+        console.log("SMTP READY");
+    }
+});
+
 const app=express();
 app.set("trust proxy", 1);
 const PORT=process.env.PORT;
@@ -34,18 +53,6 @@ app.use(session({
 }));
 
 
-
-//creating transporter for sending mail to users
-console.log("Before sendMail");
-
-await transporter.sendMail({
-    from: `"Broad_Cast" <aayush8106@gmail.com>`,
-    to: email,
-    subject: "OTP Verification",
-    html: `Your OTP is <b>${otp}</b>`
-});
-
-console.log("After sendMail");
 
 const onlineUsers = new Map();
 const collegeOnlineUsers = new Map();
