@@ -1,0 +1,29 @@
+{
+  "name": "brod_cast",
+  "version": "1.0.0",
+  "description": "Anonymous Public & College Chat Platform",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": [
+    "chat",
+    "express",
+    "postgresql",
+    "anonymous",
+    "college"
+  ],
+  "author": "Aayush",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "nodemailer": "^9.0.1",
+    "pg": "^8.22.0"
+  }
+}

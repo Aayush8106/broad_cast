@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Public Chat</title>
+<link rel="icon" type="image/x-icon" href="./favicons/public.png">
+<link rel="stylesheet" href="./css/public.css"/>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Participants</h2>
+            <button id="closeSidebar">✖</button>
+        </div>
+
+        <div class="users" id="usersList">
+
+            <div class="user">
+                <div class="name">John Doe</div>
+                <div class="status online">online</div>
+            </div>
+
+            <div class="user">
+                <div class="name">Lucy Doe</div>
+                <div class="status offline">offline</div>
+            </div>
+
+            <div class="user">
+                <div class="name">Mike</div>
+                <div class="status online">online</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="chat">
+
+        <div class="chat-header">
+            <button id="menuBtn">☰</button>
+            <h3>Public Chat</h3>
+            <button id="exitBtn">Exit</button>
+        </div>
+
+        <div class="messages" id="messages"></div>
+
+        <div class="input-box">
+            <textarea maxlength="255" id="input" placeholder="Type message..."></textarea>
+            <button id="sendBtn">Send</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="./js/public.js"></script>
+</body>
+</html>

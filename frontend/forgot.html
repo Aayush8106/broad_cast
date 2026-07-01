@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot</title>
+    <link rel="icon" type="image/x-icon" href="/favicons/forgot_pwd.png">
+    <link rel="stylesheet" href="./css/forgot.css">
+</head>
+<body>
+    
+     <div class="form-container">
+      <div class="logo-container">
+        Forgot Password
+      </div>
+
+      <form class="form">
+        <div class="form-group" id="email-tab">
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" placeholder="Enter your email" required="">
+           <span class="input_err " id="mail_err">invalid Email</span>
+        </div>
+
+        <div id="otp-tab" class="form-group otp">
+          <label for="email">OTP</label>
+          <input maxlength="4" inputmode="numeric" id="otp" name="otp" placeholder="OTP" >
+        </div>
+
+        <button class="form-submit-btn" id="actionBtn" type="submit">Send Email</button>
+      </form>
+
+      <p class="signup-link">
+        Don't have an account? <br>
+        <a href="/" class="signup-link link"> Sign up now</a>
+      </p>
+    </div>
+   <script src="js/forgot.js"></script>
+</body>
+</html>

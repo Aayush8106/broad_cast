@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credentials</title>
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="icon" type="image/x-icon" href="/favicons/password.png">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box login">
+            <form action="/login" method="post">
+                <h1>Login</h1>
+                <div class="input-box">
+                    <input type="text" placeholder="Username" required name="login" id="login">
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input_err" id="login_err">
+                      Cannot start with empty space!!
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Password" required name="password" id="login_pwd">
+                    <i class="bx bxs-lock-alt" id="login_switch"></i> 
+                </div>
+                <div class="input_err" id="login_pwd_err">
+                      Cannot start with empty space!!
+                </div>
+                <div class="forgot-link">
+                    <a href="forgot.html">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <form action="/register" method="post" >
+                <h1>Registration</h1>
+                <div class="input-box">
+    <input type="text" placeholder="Username" required name="sign_up" id="sign_up">
+    <i class='bx bxs-user'></i>
+</div>
+<div class="input_err" id="sign_up_err">
+    Cannot start with empty space!!
+</div>
+
+<div class="input-box">
+    <input type="email" placeholder="Email" required name="mail" id="mail" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+    title="Only Gmail addresses are allowed" >
+    <i class='bx bxs-envelope'></i>
+</div>
+<div class="input_err" id="mail_err">
+    Cannot start with empty space!!
+</div>
+
+<div class="input-box">
+    <input type="text" placeholder="Password" required name="sign_pwd" id="sign_pwd">
+    <i class="bx bx-lock-open-alt" id="sign_switch"></i>
+</div>
+<div class="input_err" id="sign_pwd_err">
+    Cannot start with empty space!!
+</div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+        </div>
+
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Hello, Welcome!</h1>
+                <p>Don't have an account?</p>
+                <button class="btn register-btn">Register</button>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <h1>Welcome Back!</h1>
+                <p>Already have an account?</p>
+                <button class="btn login-btn">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/login.js"></script>
+</body>
+</html>
