@@ -31,15 +31,12 @@ app.use(session({
 
 //creating transporter for sending mail to users
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
     secure: false,
     auth: {
-        user: process.env.EMAIL,
-        pass: process.env.APP_PASSWORD
-    },
-    tls: {
-        rejectUnauthorized: false
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
     }
 });
 
@@ -100,7 +97,7 @@ app.post("/register", async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL,
+      from: `"Broad_Cast" <aayush8106@gmail.com>`,
       to: email,
       subject: "OTP Verification",
       html: `Your OTP is <b>${otp}</b> :)`
@@ -148,7 +145,7 @@ app.post("/resend-otp", async (req, res) => {
     req.session.tempUser.otp = otp;
 
     await transporter.sendMail({
-        from: process.env.EMAIL,
+        from: `"Broad_Cast" <aayush8106@gmail.com>`,
         to: req.session.tempUser.email,
         subject: "OTP Verification",
         html: `Your OTP is <b>${otp}</b>:)`
@@ -352,7 +349,7 @@ app.post("/forgot-password", async (req, res) => {
         }
 
         await transporter.sendMail({
-            from: process.env.EMAIL,
+            from: `"Broad_Cast" <aayush8106@gmail.com>`,
             to: mail,
             subject: "Password Reset OTP",
             html: `Your password reset OTP is <b>${otp}</b>.`
@@ -481,7 +478,7 @@ app.post("/reset-password", async (req, res) => {
 
         // Optional email notification
         await transporter.sendMail({
-            from: process.env.EMAIL,
+            from: `"Broad_Cast" <aayush8106@gmail.com>`,
             to: process.env.EMAIL,
             subject: "UPDATED PASSWORD",
             html: `
