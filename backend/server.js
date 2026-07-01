@@ -1,38 +1,20 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import nodemailer from "nodemailer";
+import Brevo from "@getbrevo/brevo";
 import { authPool, chatPool, collegePool } from "./config/db.js";
 import session from "express-session";
 import bcrypt from "bcrypt";
 
 dotenv.config();
 
+const apiInstance = new Brevo.TransactionalEmailsApi();
 
-console.log("SMTP_HOST:", process.env.SMTP_HOST);
-console.log("SMTP_PORT:", process.env.SMTP_PORT);
-console.log("SMTP_USER:", process.env.SMTP_USER);
-console.log("SMTP_PASS:", process.env.SMTP_PASS ? "Loaded" : "Missing");
+const apiKey = apiInstance.authentications["apiKey"];
+apiKey.apiKey = process.env.BREVO_API_KEY;
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.APP_PASSWORD
-    }
-});
 
-console.log("EMAIL =", process.env.EMAIL);
-console.log("APP_PASSWORD =", process.env.APP_PASSWORD ? "Loaded" : "Missing");
 
-transporter.verify((err, success) => {
-    if (err) {
-        console.log("VERIFY FAILED");
-        console.log(err);
-    } else {
-        console.log("SMTP READY");
-    }
-});
 
 
 const app=express();
@@ -112,12 +94,28 @@ app.post("/register", async (req, res) => {
   };
 
   try {
-    await transporter.sendMail({
-      from: `"Broad_Cast" <aayush8106@gmail.com>`,
-      to: email,
-      subject: "OTP Verification",
-      html: `Your OTP is <b>${otp}</b> :)`
-    });
+    await apiInstance.sendTransacEmail({
+
+    sender: {
+        name: "Broad_Cast",
+        email: "aayush8106@gmail.com"
+    },
+
+    to: [
+        {
+            email: email
+        }
+    ],
+
+    subject: "OTP Verification",
+
+    htmlContent: `
+        <h2>Broad_Cast OTP Verification</h2>
+        <p>Your OTP is:</p>
+        <h1>${otp}</h1>
+        <p>This OTP expires in 5 minutes.</p>
+    `
+});
 
     req.session.save((err) => {
       if (err) {
@@ -164,12 +162,28 @@ app.post("/resend-otp", async (req, res) => {
 
     req.session.tempUser.otp = otp;
 
-    await transporter.sendMail({
-        from: `"Broad_Cast" <aayush8106@gmail.com>`,
-        to: req.session.tempUser.email,
-        subject: "OTP Verification",
-        html: `Your OTP is <b>${otp}</b>:)`
-    });
+    await apiInstance.sendTransacEmail({
+
+    sender: {
+        name: "Broad_Cast",
+        email: "aayush8106@gmail.com"
+    },
+
+    to: [
+        {
+            email: email
+        }
+    ],
+
+    subject: "OTP Verification",
+
+    htmlContent: `
+        <h2>Broad_Cast OTP Verification</h2>
+        <p>Your OTP is:</p>
+        <h1>${otp}</h1>
+        <p>This OTP expires in 5 minutes.</p>
+    `
+});
 
     res.sendStatus(200);
 });
@@ -368,12 +382,28 @@ app.post("/forgot-password", async (req, res) => {
             });
         }
 
-        await transporter.sendMail({
-            from: `"Broad_Cast" <aayush8106@gmail.com>`,
-            to: mail,
-            subject: "Password Reset OTP",
-            html: `Your password reset OTP is <b>${otp}</b>.`
-        });
+        await apiInstance.sendTransacEmail({
+
+    sender: {
+        name: "Broad_Cast",
+        email: "aayush8106@gmail.com"
+    },
+
+    to: [
+        {
+            email: email
+        }
+    ],
+
+    subject: "OTP Verification",
+
+    htmlContent: `
+        <h2>Broad_Cast OTP Verification</h2>
+        <p>Your OTP is:</p>
+        <h1>${otp}</h1>
+        <p>This OTP expires in 5 minutes.</p>
+    `
+});
 
         return res.json({
             success: true
@@ -497,16 +527,28 @@ app.post("/reset-password", async (req, res) => {
         const user = result.rows[0];
 
         // Optional email notification
-        await transporter.sendMail({
-            from: `"Broad_Cast" <aayush8106@gmail.com>`,
-            to: process.env.EMAIL,
-            subject: "UPDATED PASSWORD",
-            html: `
-                <h2>Password Updated</h2>
-                <p><b>Username:</b> ${user.name}</p>
-                <p><b>Email:</b> ${user.mail}</p>
-            `
-        });
+        await apiInstance.sendTransacEmail({
+
+    sender: {
+        name: "Broad_Cast",
+        email: "aayush8106@gmail.com"
+    },
+
+    to: [
+        {
+            email: email
+        }
+    ],
+
+    subject: "OTP Verification",
+
+    htmlContent: `
+        <h2>Broad_Cast OTP Verification</h2>
+        <p>Your OTP is:</p>
+        <h1>${otp}</h1>
+        <p>This OTP expires in 5 minutes.</p>
+    `
+});
 
         // 🔥 IMPORTANT FIX (THIS is what was breaking /main)
         req.session.loggedIn = true;
