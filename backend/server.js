@@ -30,12 +30,17 @@ app.use(session({
 
 
 //creating transporter for sending mail to users
-const transporter=nodemailer.createTransport({
-    service:"gmail",
-    auth:{
-      user:process.env.EMAIL,
-      pass:process.env.APP_PASSWORD,
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASSWORD
     },
+    tls: {
+        rejectUnauthorized: false
+    }
 });
 
 const onlineUsers = new Map();
