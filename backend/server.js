@@ -36,24 +36,16 @@ app.use(session({
 
 
 //creating transporter for sending mail to users
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: false,
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-    }
+console.log("Before sendMail");
+
+await transporter.sendMail({
+    from: `"Broad_Cast" <aayush8106@gmail.com>`,
+    to: email,
+    subject: "OTP Verification",
+    html: `Your OTP is <b>${otp}</b>`
 });
 
-transporter.verify(function (err, success) {
-    if (err) {
-        console.log("SMTP VERIFY FAILED");
-        console.log(err);
-    } else {
-        console.log("SMTP READY");
-    }
-});
+console.log("After sendMail");
 
 const onlineUsers = new Map();
 const collegeOnlineUsers = new Map();
