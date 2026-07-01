@@ -22,13 +22,18 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+console.log("EMAIL =", process.env.EMAIL);
+console.log("APP_PASSWORD =", process.env.APP_PASSWORD ? "Loaded" : "Missing");
+
 transporter.verify((err, success) => {
     if (err) {
+        console.log("VERIFY FAILED");
         console.log(err);
     } else {
-        console.log("Gmail SMTP Ready");
+        console.log("SMTP READY");
     }
 });
+
 
 const app=express();
 app.set("trust proxy", 1);
