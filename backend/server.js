@@ -95,7 +95,7 @@ app.post("/register", async (req, res) => {
     },
     to: [
         {
-            email: email
+            email: req.session.tempUser.email
         }
     ],
     subject: "OTP Verification",
