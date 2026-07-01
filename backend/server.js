@@ -15,21 +15,18 @@ console.log("SMTP_USER:", process.env.SMTP_USER);
 console.log("SMTP_PASS:", process.env.SMTP_PASS ? "Loaded" : "Missing");
 
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: false,
+    service: "gmail",
     auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASSWORD
     }
 });
 
 transporter.verify((err, success) => {
     if (err) {
-        console.log("SMTP ERROR");
         console.log(err);
     } else {
-        console.log("SMTP READY");
+        console.log("Gmail SMTP Ready");
     }
 });
 
