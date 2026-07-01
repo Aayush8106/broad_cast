@@ -105,7 +105,7 @@ app.post("/register", async (req, res) => {
 });
  
 console.log("2. After Brevo");
-console.log(response);
+
 
     req.session.save((err) => {
       if (err) {
