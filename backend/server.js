@@ -46,6 +46,15 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+transporter.verify(function (err, success) {
+    if (err) {
+        console.log("SMTP VERIFY FAILED");
+        console.log(err);
+    } else {
+        console.log("SMTP READY");
+    }
+});
+
 const onlineUsers = new Map();
 const collegeOnlineUsers = new Map();
 
@@ -118,9 +127,13 @@ app.post("/register", async (req, res) => {
     });
 
   } catch (err) {
+    console.error("MAIL ERROR:");
     console.error(err);
-    return res.status(500).json({ message: "Email error" });
-  }
+    return res.status(500).json({
+        message: "Email error",
+        error: err.message
+    });
+}
 
 });
 
