@@ -50,7 +50,7 @@ app.get("/",(req,res)=>{
 
 //register
 app.post("/register", async (req, res) => {
-
+  console.log("REGISTER ROUTE HIT");
   const { sign_up, mail, sign_pwd } = req.body;
 
   const username = sign_up.trim().toLowerCase();
