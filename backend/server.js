@@ -43,7 +43,6 @@ app.get("/",(req,res)=>{
 
 //register
 app.post("/register", async (req, res) => {
-  console.log("REGISTER ROUTE HIT");
   const { sign_up, mail, sign_pwd } = req.body;
 
   const username = sign_up.trim().toLowerCase();
@@ -89,7 +88,6 @@ app.post("/register", async (req, res) => {
   };
 
   try {
-    console.log("1. Before Brevo");
     await client.transactionalEmails.sendTransacEmail({
     sender: {
         email: "aayush8106@gmail.com",
@@ -101,10 +99,9 @@ app.post("/register", async (req, res) => {
         }
     ],
     subject: "OTP Verification",
-    htmlContent: `<h2>Your OTP is <b>${otp}</b></h2>`
+    htmlContent: `<h2>Your OTP is <b>${otp} :)</b></h2>`
 });
  
-console.log("2. After Brevo");
 
 
     req.session.save((err) => {
@@ -163,7 +160,7 @@ app.post("/resend-otp", async (req, res) => {
         }
     ],
     subject: "OTP Verification",
-    htmlContent: `<h2>Your Resent OTP is <b>${otp}</b></h2>`
+    htmlContent: `<h2>Your Resent OTP is <b>${otp}.</b></h2>`
 });
 
     res.sendStatus(200);
@@ -374,7 +371,7 @@ app.post("/forgot-password", async (req, res) => {
         }
     ],
     subject: "Reset Password",
-    htmlContent: `<h2>Your OTP is <b>${otp}</b></h2>`
+    htmlContent: `<h2>Your OTP is <b>${otp}.</b></h2>`
 });
 
         return res.json({
@@ -510,7 +507,7 @@ app.post("/reset-password", async (req, res) => {
         }
     ],
     subject: "OTP Verification",
-    htmlContent: `<h2>Your OTP is <b>${otp}</b></h2>`
+    htmlContent: `<h2>Your OTP is <b>${otp}.</b></h2>`
 });
 
         // 🔥 IMPORTANT FIX (THIS is what was breaking /main)
