@@ -1,21 +1,16 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import Brevo from "@getbrevo/brevo";
+import { BrevoClient } from "@getbrevo/brevo";
 import { authPool, chatPool, collegePool } from "./config/db.js";
 import session from "express-session";
 import bcrypt from "bcrypt";
 
 dotenv.config();
 
-const apiInstance = new Brevo.TransactionalEmailsApi();
-
-const apiKey = apiInstance.authentications["apiKey"];
-apiKey.apiKey = process.env.BREVO_API_KEY;
-
-
-
-
+const client = new BrevoClient({
+    apiKey: process.env.BREVO_API_KEY
+});
 
 const app=express();
 app.set("trust proxy", 1);
@@ -94,29 +89,19 @@ app.post("/register", async (req, res) => {
   };
 
   try {
-    await apiInstance.sendTransacEmail({
-
+    await client.transactionalEmails.sendTransacEmail({
     sender: {
-        name: "Broad_Cast",
-        email: "aayush8106@gmail.com"
+        email: "aayush8106@gmail.com",
+        name: "Broad_Cast"
     },
-
     to: [
         {
             email: email
         }
     ],
-
     subject: "OTP Verification",
-
-    htmlContent: `
-        <h2>Broad_Cast OTP Verification</h2>
-        <p>Your OTP is:</p>
-        <h1>${otp}</h1>
-        <p>This OTP expires in 5 minutes.</p>
-    `
+    htmlContent: `<h2>Your OTP is <b>${otp}</b></h2>`
 });
-
     req.session.save((err) => {
       if (err) {
         return res.status(500).json({ message: "Session error" });
@@ -162,27 +147,18 @@ app.post("/resend-otp", async (req, res) => {
 
     req.session.tempUser.otp = otp;
 
-    await apiInstance.sendTransacEmail({
-
+    await client.transactionalEmails.sendTransacEmail({
     sender: {
-        name: "Broad_Cast",
-        email: "aayush8106@gmail.com"
+        email: "aayush8106@gmail.com",
+        name: "Broad_Cast"
     },
-
     to: [
         {
             email: email
         }
     ],
-
     subject: "OTP Verification",
-
-    htmlContent: `
-        <h2>Broad_Cast OTP Verification</h2>
-        <p>Your OTP is:</p>
-        <h1>${otp}</h1>
-        <p>This OTP expires in 5 minutes.</p>
-    `
+    htmlContent: `<h2>Your Resent OTP is <b>${otp}</b></h2>`
 });
 
     res.sendStatus(200);
@@ -382,27 +358,18 @@ app.post("/forgot-password", async (req, res) => {
             });
         }
 
-        await apiInstance.sendTransacEmail({
-
+        await client.transactionalEmails.sendTransacEmail({
     sender: {
-        name: "Broad_Cast",
-        email: "aayush8106@gmail.com"
+        email: "aayush8106@gmail.com",
+        name: "Broad_Cast"
     },
-
     to: [
         {
             email: email
         }
     ],
-
-    subject: "OTP Verification",
-
-    htmlContent: `
-        <h2>Broad_Cast OTP Verification</h2>
-        <p>Your OTP is:</p>
-        <h1>${otp}</h1>
-        <p>This OTP expires in 5 minutes.</p>
-    `
+    subject: "Reset Password",
+    htmlContent: `<h2>Your OTP is <b>${otp}</b></h2>`
 });
 
         return res.json({
@@ -527,27 +494,18 @@ app.post("/reset-password", async (req, res) => {
         const user = result.rows[0];
 
         // Optional email notification
-        await apiInstance.sendTransacEmail({
-
+       await client.transactionalEmails.sendTransacEmail({
     sender: {
-        name: "Broad_Cast",
-        email: "aayush8106@gmail.com"
+        email: "aayush8106@gmail.com",
+        name: "Broad_Cast"
     },
-
     to: [
         {
             email: email
         }
     ],
-
     subject: "OTP Verification",
-
-    htmlContent: `
-        <h2>Broad_Cast OTP Verification</h2>
-        <p>Your OTP is:</p>
-        <h1>${otp}</h1>
-        <p>This OTP expires in 5 minutes.</p>
-    `
+    htmlContent: `<h2>Your OTP is <b>${otp}</b></h2>`
 });
 
         // 🔥 IMPORTANT FIX (THIS is what was breaking /main)
